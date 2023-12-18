@@ -102,7 +102,7 @@ RSpec.describe CronCalc do
       let(:period) { Time.new(2023, 1, 1)..Time.new(2023, 1, 2) }
 
       it do
-        expect { subject }.to raise_error(RuntimeError, 'Cron expression is not supported or invalid')
+        expect { subject }.to raise_error(RuntimeError, 'Cron expression is not supported or invalid test')
       end
     end
 

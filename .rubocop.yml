@@ -1,3 +1,7 @@
 AllCops:
-  TargetRubyVersion: 3.2
+  TargetRubyVersion: 2.6
+  NewCops: enable
 
+Metrics/BlockLength:
+  Exclude:
+    - spec/cron_calc_spec.rb

@@ -3,6 +3,7 @@
 require_relative 'cron_calc/version'
 require 'time'
 
+# The CronCalc is gem-wrapper module for the Parser class
 module CronCalc
   class Error < StandardError; end
 
@@ -10,6 +11,9 @@ module CronCalc
     Parser.new(cron_string, period)
   end
 
+  # The Parser class provides functionality to parse and calculate occurrences
+  # of cron jobs within a given time period. It interprets cron strings and
+  # calculates when cron jobs will occur
   class Parser
     attr_reader :cron_string, :cron_parts, :period
 
@@ -54,6 +58,7 @@ module CronCalc
       %i[minutes hours days months].map { |unit| parse_cron_part(unit) } << (period.min.year..period.max.year).to_a
     end
 
+    # rubocop:disable Metrics
     def parse_cron_part(time_unit)
       range = RANGE[time_unit]
       part = cron_parts[time_unit]
@@ -71,9 +76,12 @@ module CronCalc
         [part.to_i]
       end
     end
+    # rubocop:enable Metrics
 
     def cron_string_valid?
+      # rubocop:disable Layout/LineLength
       regex = %r{\A(\*|([0-5]?\d)(,([0-5]?\d))*|(\*/\d+)|(\d+-\d+)) (\*|([01]?\d|2[0-3])(,([01]?\d|2[0-3]))*|(\*/\d+)|(\d+-\d+)) (\*|([12]?\d|3[01])(,([12]?\d|3[01]))*|(\*/\d+)|(\d+-\d+)) (\*|([1-9]|1[0-2])(,([1-9]|1[0-2]))*|(\*/\d+)|(\d+-\d+)) \*\z}
+      # rubocop:enable Layout/LineLength
       cron_string.match?(regex)
     end
   end
