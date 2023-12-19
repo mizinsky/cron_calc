@@ -4,25 +4,75 @@ CronCalc: A Ruby gem for calculating and analyzing scheduled CRON job occurrence
 
 ## Installation
 
-TODO: Replace `UPDATE_WITH_YOUR_GEM_NAME_PRIOR_TO_RELEASE_TO_RUBYGEMS_ORG` with your gem name right after releasing it to RubyGems.org. Please do not do it earlier due to security reasons. Alternatively, replace this section with instructions to install your gem from git if you don't plan to release to RubyGems.org.
+Install the gem by executing:
 
-Install the gem and add to the application's Gemfile by executing:
-
-    $ bundle add UPDATE_WITH_YOUR_GEM_NAME_PRIOR_TO_RELEASE_TO_RUBYGEMS_ORG
-
-If bundler is not being used to manage dependencies, install the gem by executing:
-
-    $ gem install UPDATE_WITH_YOUR_GEM_NAME_PRIOR_TO_RELEASE_TO_RUBYGEMS_ORG
+    $ gem install cron_calc
 
 ## Usage
 
-TODO: Write usage instructions here
+After installing `cron_calc` you can initialize `CronCalc` with the CRON string.
 
-## Development
+```ruby
+    require 'cron_calc'
+    cron_calc = CronCalc.new('5 5 * * *')
+```
 
-After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
+Now, you can use one of three methods `#in`, `#next`, `#last` to determine cron job occurrencies within specified period.
 
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and the created tag, and push the `.gem` file to [rubygems.org](https://rubygems.org).
+### Using `#in`
+
+Calculates cron job occurrences within a given time period.
+@param period [Range] The time period for which to calculate cron job occurrences.
+@return [Array<Time>] An array of Time instances representing each occurrence.
+
+```ruby
+    period = Time.new(2024, 1, 1, 0, 0)..Time.new(2024, 1, 4, 0, 0)
+    cron_calc.in(period)
+
+    # => [2024-01-01 05:05:00 +0100, 2024-01-02 05:05:00 +0100, 2024-01-03 05:05:00 +0100]
+```
+
+### Using `#next`
+
+Calculates the next 'n' occurrences of the cron job from a given start time.
+@param count [Integer] The number of occurrences to calculate. Defaults to `1`.
+@param period_start [Time] The start time from which to calculate occurrences. Defaults to `Time.now`.
+@param max_years [Integer] The maximum number of years to consider for the period. Defaults to `5`.
+@return [Array<Time>] An array of the next 'n' occurrences.
+
+```ruby
+    cron_calc.next
+    # => [2023-12-20 05:05:00 +0100]
+
+    cron_calc.next(3)
+    # => [2023-12-20 05:05:00 +0100, 2023-12-21 05:05:00 +0100, 2023-12-22 05:05:00 +0100]
+
+    cron_calc.next(2, Time.new(2024, 1, 1, 0, 0))
+    # => [2024-01-01 05:05:00 +0100, 2024-01-02 05:05:00 +0100]
+```
+
+### Using `#last`
+
+Calculates the last 'n' occurrences of the cron job until a given end time.
+@param count [Integer] The number of past occurrences to calculate.
+@param period_end [Time] The end time until which to calculate occurrences.
+@param max_years [Integer] The maximum number of years to consider for the period.
+@return [Array<Time>] An array of the last 'n' occurrences.
+
+```ruby
+    cron_calc.last
+    # => [2023-12-19 05:05:00 +0100]
+
+    cron_calc.last(4, Time.new(2024, 1, 1, 0, 0))
+    # => [2023-12-31 05:05:00 +0100, 2023-12-30 05:05:00 +0100, 2023-12-29 05:05:00 +0100, 2023-12-28 05:05:00 +0100]
+```
+
+## Unsupported features
+
+- DOW (Day of Week) - always require *
+- Named DOW and months (SUN-SAT, JAN-DEC)
+- Joining characters , - /
+- Predefined definitions (@yearly, @monthly, @weekly, @daily, @midnight, @hourly)
 
 ## Contributing
 
