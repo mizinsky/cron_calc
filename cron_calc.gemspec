@@ -8,8 +8,9 @@ Gem::Specification.new do |spec|
   spec.authors = ['Jakub Miziński']
   spec.email = ['jakubmizinski@gmail.com']
 
-  spec.summary = 'calculates cron job occurrences'
-  spec.description = 'calculates cron job occurrences within a specified period'
+  spec.summary = 'Calculates cron job occurrences'
+  spec.description = 'Calculates cron job occurrences within a specified period \n
+                      or determines next/last "n" occurrences based on a specified time.'
   spec.homepage = 'https://github.com/mizinsky/cron_calc'
   spec.license = 'MIT'
   spec.required_ruby_version = '>= 2.6.0'
@@ -30,10 +31,4 @@ Gem::Specification.new do |spec|
   spec.bindir = 'exe'
   spec.executables = spec.files.grep(%r{\Aexe/}) { |f| File.basename(f) }
   spec.require_paths = ['lib']
-
-  # Uncomment to register a new dependency of your gem
-  spec.add_dependency 'rspec', '~> 3.12'
-
-  # For more information and examples about making a new gem, check out our
-  # guide at: https://bundler.io/guides/creating_gem.html
 end
