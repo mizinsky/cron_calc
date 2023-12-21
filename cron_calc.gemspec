@@ -9,7 +9,7 @@ Gem::Specification.new do |spec|
   spec.email = ['jakubmizinski@gmail.com']
 
   spec.summary = 'Calculates cron job occurrences'
-  spec.description = 'Calculates cron job occurrences within a specified period \n
+  spec.description = 'Calculates cron job occurrences within a specified period
                       or determines next/last "n" occurrences based on a specified time.'
   spec.homepage = 'https://github.com/mizinsky/cron_calc'
   spec.license = 'MIT'

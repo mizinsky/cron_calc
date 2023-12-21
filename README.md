@@ -21,8 +21,8 @@ Now, you can use one of three methods `#in`, `#next`, `#last` to determine cron 
 
 ### Using `#in`
 
-Calculates cron job occurrences within a given time period.
-@param period [Range] The time period for which to calculate cron job occurrences.
+Calculates cron job occurrences within a given time period.\
+@param period [Range] The time period for which to calculate cron job occurrences.\
 @return [Array<Time>] An array of Time instances representing each occurrence.
 
 ```ruby
@@ -34,10 +34,10 @@ Calculates cron job occurrences within a given time period.
 
 ### Using `#next`
 
-Calculates the next 'n' occurrences of the cron job from a given start time.
-@param count [Integer] The number of occurrences to calculate. Defaults to `1`.
-@param period_start [Time] The start time from which to calculate occurrences. Defaults to `Time.now`.
-@param max_years [Integer] The maximum number of years to consider for the period. Defaults to `5`.
+Calculates the next 'n' occurrences of the cron job from a given start time.\
+@param count [Integer] The number of occurrences to calculate. Defaults to `1`.\
+@param period_start [Time] The start time from which to calculate occurrences. Defaults to `Time.now`.\
+@param max_years [Integer] The maximum number of years to consider for the period. Defaults to `5`.\
 @return [Array<Time>] An array of the next 'n' occurrences.
 
 ```ruby
@@ -53,10 +53,10 @@ Calculates the next 'n' occurrences of the cron job from a given start time.
 
 ### Using `#last`
 
-Calculates the last 'n' occurrences of the cron job until a given end time.
-@param count [Integer] The number of past occurrences to calculate.
-@param period_end [Time] The end time until which to calculate occurrences.
-@param max_years [Integer] The maximum number of years to consider for the period.
+Calculates the last 'n' occurrences of the cron job until a given end time.\
+@param count [Integer] The number of past occurrences to calculate.\
+@param period_end [Time] The end time until which to calculate occurrences.\
+@param max_years [Integer] The maximum number of years to consider for the period.\
 @return [Array<Time>] An array of the last 'n' occurrences.
 
 ```ruby
