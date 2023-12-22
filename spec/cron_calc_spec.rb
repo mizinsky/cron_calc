@@ -132,7 +132,7 @@ RSpec.describe CronCalc do
       end
     end
 
-    context 'when DOW excludes days of month' do
+    context 'when wdays excludes days of month' do
       let(:cron_string) { '5 5 14-22 * 0,6' }
       let(:period) { Time.new(2024, 1, 1, 0, 0)..Time.new(2024, 2, 1, 0, 0) }
 
@@ -141,6 +141,32 @@ RSpec.describe CronCalc do
                                 Time.new(2024, 1, 14, 5, 5),
                                 Time.new(2024, 1, 20, 5, 5),
                                 Time.new(2024, 1, 21, 5, 5)
+                              ])
+      end
+    end
+
+    context 'when named months are used' do
+      let(:cron_string) { '5 5 5 JAN,FEB *' }
+      let(:period) { Time.new(2024, 1, 1, 0, 0)..Time.new(2024, 3, 31, 0, 0) }
+
+      it do
+        expect(subject).to eq([
+                                Time.new(2024, 1, 5, 5, 5),
+                                Time.new(2024, 2, 5, 5, 5)
+                              ])
+      end
+    end
+
+    context 'when named wdays are used' do
+      let(:cron_string) { '5 5 1-8 FEB TUE-THU' }
+      let(:period) { Time.new(2024, 1, 1, 0, 0)..Time.new(2024, 3, 31, 0, 0) }
+
+      it do
+        expect(subject).to eq([
+                                Time.new(2024, 2, 1, 5, 5),
+                                Time.new(2024, 2, 6, 5, 5),
+                                Time.new(2024, 2, 7, 5, 5),
+                                Time.new(2024, 2, 8, 5, 5)
                               ])
       end
     end

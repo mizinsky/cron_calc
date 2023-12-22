@@ -2,6 +2,7 @@
 
 require_relative 'cron_calc/version'
 require 'time'
+require 'debug'
 
 # The CronCalc is gem-wrapper module for the Parser class
 module CronCalc
@@ -22,7 +23,18 @@ module CronCalc
       hours: 0..23,
       days: 1..31,
       months: 1..12,
-      dows: 0..7
+      wdays: 0..6
+    }.freeze
+
+    WDAYS = {
+      'SUN' => '0', 'MON' => '1', 'TUE' => '2', 'WED' => '3',
+      'THU' => '4', 'FRI' => '5', 'SAT' => '6'
+    }.freeze
+
+    MONTHS = {
+      'JAN' => '1', 'FEB' => '2', 'MAR' => '3', 'APR' => '4',
+      'MAY' => '5', 'JUN' => '6', 'JUL' => '7', 'AUG' => '8',
+      'SEP' => '9', 'OCT' => '10', 'NOV' => '11', 'DEC' => '12'
     }.freeze
 
     def initialize(cron_string)
@@ -69,7 +81,7 @@ module CronCalc
 
     def occurrences(period, count = nil, reverse: false)
       time_combinations = generate_time_combinations(period, reverse).lazy
-      wdays = parse_cron_part(:dows)
+      wdays = parse_cron_part(:wdays)
 
       time_combinations.each_with_object([]) do |(year, month, day, hour, minute), occ|
         break occ if count && occ.length == count
@@ -94,8 +106,8 @@ module CronCalc
         minutes: splitted[0],
         hours: splitted[1],
         days: splitted[2],
-        months: splitted[3],
-        dows: splitted[4]
+        months: normalize_with(splitted[3], MONTHS),
+        wdays: normalize_with(splitted[4], WDAYS)
       }
     end
 
@@ -123,9 +135,13 @@ module CronCalc
     end
     # rubocop:enable Metrics
 
+    def normalize_with(string, mapping)
+      mapping.inject(string) { |str, (k, v)| str.gsub(k, v) }
+    end
+
     def cron_string_valid?
       # rubocop:disable Layout/LineLength
-      regex = %r{\A(\*|([0-5]?\d)(,([0-5]?\d))*|(\*/\d+)|(\d+-\d+)) (\*|([01]?\d|2[0-3])(,([01]?\d|2[0-3]))*|(\*/\d+)|(\d+-\d+)) (\*|([12]?\d|3[01])(,([12]?\d|3[01]))*|(\*/\d+)|(\d+-\d+)) (\*|([1-9]|1[0-2])(,([1-9]|1[0-2]))*|(\*/\d+)|(\d+-\d+)) (\*|([0-6])(,([0-6]))*|(\*/[0-6]+)|([0-6]-[0-6]))\z}
+      regex = %r{\A(\*|([0-5]?\d)(,([0-5]?\d))*|(\*/\d+)|(\d+-\d+)) (\*|([01]?\d|2[0-3])(,([01]?\d|2[0-3]))*|(\*/\d+)|(\d+-\d+)) (\*|([12]?\d|3[01])(,([12]?\d|3[01]))*|(\*/\d+)|(\d+-\d+)) (\*|(JAN|FEB|MAR|APR|MAY|JUN|JUL|AUG|SEP|OCT|NOV|DEC|[1-9]|1[0-2])(,(JAN|FEB|MAR|APR|MAY|JUN|JUL|AUG|SEP|OCT|NOV|DEC|[1-9]|1[0-2])|-(JAN|FEB|MAR|APR|MAY|JUN|JUL|AUG|SEP|OCT|NOV|DEC))*|(\*/\d+)|(\d+-\d+)) (\*|(SUN|MON|TUE|WED|THU|FRI|SAT|[0-6])(,(SUN|MON|TUE|WED|THU|FRI|SAT|[0-6])|-(SUN|MON|TUE|WED|THU|FRI|SAT))*|(\*/[0-6]+)|([0-6]-[0-6]))\z}
       # rubocop:enable Layout/LineLength
       cron_string.match?(regex)
     end
