@@ -1,3 +1,7 @@
+## [0.3.0] - 2023-12-22
+
+- Added support for DOWs
+
 ## [0.2.0] - 2023-12-19
 
 - Added #next method
