@@ -2,7 +2,6 @@
 
 require_relative 'cron_calc/version'
 require 'time'
-require 'debug'
 
 # The CronCalc is gem-wrapper module for the Parser class
 module CronCalc
