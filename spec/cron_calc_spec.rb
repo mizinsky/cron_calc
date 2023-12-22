@@ -173,9 +173,9 @@ RSpec.describe CronCalc do
   end
 
   describe '#next' do
-    let(:subject) { described_class.new(cron_string).next(n, period_start) }
+    let(:subject) { described_class.new(cron_string).next(n, after:) }
     let(:n) { 3 }
-    let(:period_start) { Time.new(2024, 1, 1, 0, 0) }
+    let(:after) { Time.new(2024, 1, 1, 0, 0) }
 
     context 'when "," is used' do
       let(:cron_string) { '30 22,23 * * *' }
@@ -188,12 +188,23 @@ RSpec.describe CronCalc do
                               ])
       end
     end
+
+    context 'when count parameter is missing' do
+      let(:subject) { described_class.new(cron_string).next(after:) }
+      let(:cron_string) { '30 22,23 * * *' }
+
+      it do
+        expect(subject).to eq([
+                                Time.new(2024, 1, 1, 22, 30)
+                              ])
+      end
+    end
   end
 
   describe '#last' do
-    let(:subject) { described_class.new(cron_string).last(n, period_end) }
+    let(:subject) { described_class.new(cron_string).last(n, before:) }
     let(:n) { 3 }
-    let(:period_end) { Time.new(2024, 1, 1, 0, 0) }
+    let(:before) { Time.new(2024, 1, 1, 0, 0) }
 
     context 'when "," is used' do
       let(:cron_string) { '30 22,23 * * *' }
@@ -203,6 +214,17 @@ RSpec.describe CronCalc do
                                 Time.new(2023, 12, 31, 23, 30),
                                 Time.new(2023, 12, 31, 22, 30),
                                 Time.new(2023, 12, 30, 23, 30)
+                              ])
+      end
+    end
+
+    context 'when count parameter is missing' do
+      let(:subject) { described_class.new(cron_string).last(before:) }
+      let(:cron_string) { '30 22,23 * * *' }
+
+      it do
+        expect(subject).to eq([
+                                Time.new(2023, 12, 31, 23, 30)
                               ])
       end
     end

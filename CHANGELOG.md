@@ -1,3 +1,8 @@
+## [0.4.0] - 2023-12-22
+
+- Added support for named months and wdays
+- Keyword arguments: before:, after:
+
 ## [0.3.0] - 2023-12-22
 
 - Added support for DOWs

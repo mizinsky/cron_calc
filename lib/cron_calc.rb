@@ -54,24 +54,24 @@ module CronCalc
 
     # Calculates the next 'n' occurrences of the cron job from a given start time.
     # @param count [Integer] The number of occurrences to calculate.
-    # @param period_start [Time] The start time from which to calculate occurrences.
+    # @param after [Time] The start time from which to calculate occurrences.
     # @param max_years [Integer] The maximum number of years to consider for the period.
     # @return [Array<Time>] An array of the next 'n' occurrences.
-    def next(count = 1, period_start = Time.now, max_years = 5)
+    def next(count = 1, after: Time.now, max_years: 5)
       occurrences(
-        period_start..(period_start + (60 * 60 * 24 * 365 * max_years)),
+        after..(after + (60 * 60 * 24 * 365 * max_years)),
         count
       )
     end
 
     # Calculates the last 'n' occurrences of the cron job until a given end time.
     # @param count [Integer] The number of past occurrences to calculate.
-    # @param period_end [Time] The end time until which to calculate occurrences.
+    # @param before [Time] The end time until which to calculate occurrences.
     # @param max_years [Integer] The maximum number of years to consider for the period.
     # @return [Array<Time>] An array of the last 'n' occurrences.
-    def last(count = 1, period_end = Time.now, max_years = 5)
+    def last(count = 1, before: Time.now, max_years: 5)
       occurrences(
-        (period_end - (60 * 60 * 24 * 365 * max_years))..period_end,
+        (before - (60 * 60 * 24 * 365 * max_years))..before,
         count,
         reverse: true
       )
