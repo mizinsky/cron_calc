@@ -173,7 +173,7 @@ RSpec.describe CronCalc do
   end
 
   describe '#next' do
-    let(:subject) { described_class.new(cron_string).next(n, after:) }
+    let(:subject) { described_class.new(cron_string).next(n, after: after) }
     let(:n) { 3 }
     let(:after) { Time.new(2024, 1, 1, 0, 0) }
 
@@ -190,7 +190,7 @@ RSpec.describe CronCalc do
     end
 
     context 'when count parameter is missing' do
-      let(:subject) { described_class.new(cron_string).next(after:) }
+      let(:subject) { described_class.new(cron_string).next(after: after) }
       let(:cron_string) { '30 22,23 * * *' }
 
       it do
@@ -202,7 +202,7 @@ RSpec.describe CronCalc do
   end
 
   describe '#last' do
-    let(:subject) { described_class.new(cron_string).last(n, before:) }
+    let(:subject) { described_class.new(cron_string).last(n, before: before) }
     let(:n) { 3 }
     let(:before) { Time.new(2024, 1, 1, 0, 0) }
 
@@ -219,7 +219,7 @@ RSpec.describe CronCalc do
     end
 
     context 'when count parameter is missing' do
-      let(:subject) { described_class.new(cron_string).last(before:) }
+      let(:subject) { described_class.new(cron_string).last(before: before) }
       let(:cron_string) { '30 22,23 * * *' }
 
       it do
