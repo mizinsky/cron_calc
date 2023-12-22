@@ -69,7 +69,6 @@ Calculates the last 'n' occurrences of the cron job until a given end time.\
 
 ## Unsupported features
 
-- DOW (Day of Week) - always require *
 - Named DOW and months (SUN-SAT, JAN-DEC)
 - Joining characters , - /
 - Predefined definitions (@yearly, @monthly, @weekly, @daily, @midnight, @hourly)

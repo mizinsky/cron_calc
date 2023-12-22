@@ -21,7 +21,8 @@ module CronCalc
       minutes: 0..59,
       hours: 0..23,
       days: 1..31,
-      months: 1..12
+      months: 1..12,
+      dows: 0..7
     }.freeze
 
     def initialize(cron_string)
@@ -68,12 +69,13 @@ module CronCalc
 
     def occurrences(period, count = nil, reverse: false)
       time_combinations = generate_time_combinations(period, reverse).lazy
+      wdays = parse_cron_part(:dows)
 
       time_combinations.each_with_object([]) do |(year, month, day, hour, minute), occ|
         break occ if count && occ.length == count
 
         time = Time.new(year, month, day, hour, minute)
-        occ << time if Date.valid_date?(year, month, day) && period.include?(time)
+        occ << time if Date.valid_date?(year, month, day) && period.include?(time) && wdays.include?(time.wday)
       end
     end
 
@@ -92,7 +94,8 @@ module CronCalc
         minutes: splitted[0],
         hours: splitted[1],
         days: splitted[2],
-        months: splitted[3]
+        months: splitted[3],
+        dows: splitted[4]
       }
     end
 
@@ -122,7 +125,7 @@ module CronCalc
 
     def cron_string_valid?
       # rubocop:disable Layout/LineLength
-      regex = %r{\A(\*|([0-5]?\d)(,([0-5]?\d))*|(\*/\d+)|(\d+-\d+)) (\*|([01]?\d|2[0-3])(,([01]?\d|2[0-3]))*|(\*/\d+)|(\d+-\d+)) (\*|([12]?\d|3[01])(,([12]?\d|3[01]))*|(\*/\d+)|(\d+-\d+)) (\*|([1-9]|1[0-2])(,([1-9]|1[0-2]))*|(\*/\d+)|(\d+-\d+)) \*\z}
+      regex = %r{\A(\*|([0-5]?\d)(,([0-5]?\d))*|(\*/\d+)|(\d+-\d+)) (\*|([01]?\d|2[0-3])(,([01]?\d|2[0-3]))*|(\*/\d+)|(\d+-\d+)) (\*|([12]?\d|3[01])(,([12]?\d|3[01]))*|(\*/\d+)|(\d+-\d+)) (\*|([1-9]|1[0-2])(,([1-9]|1[0-2]))*|(\*/\d+)|(\d+-\d+)) (\*|([0-6])(,([0-6]))*|(\*/[0-6]+)|([0-6]-[0-6]))\z}
       # rubocop:enable Layout/LineLength
       cron_string.match?(regex)
     end

@@ -117,6 +117,33 @@ RSpec.describe CronCalc do
                               ])
       end
     end
+
+    context 'when DOW (day of the week) is used' do
+      let(:cron_string) { '5 5 * * 0' }
+      let(:period) { Time.new(2024, 1, 1, 0, 0)..Time.new(2024, 2, 1, 0, 0) }
+
+      it do
+        expect(subject).to eq([
+                                Time.new(2024, 1, 7, 5, 5),
+                                Time.new(2024, 1, 14, 5, 5),
+                                Time.new(2024, 1, 21, 5, 5),
+                                Time.new(2024, 1, 28, 5, 5)
+                              ])
+      end
+    end
+
+    context 'when DOW excludes days of month' do
+      let(:cron_string) { '5 5 14-22 * 0,6' }
+      let(:period) { Time.new(2024, 1, 1, 0, 0)..Time.new(2024, 2, 1, 0, 0) }
+
+      it do
+        expect(subject).to eq([
+                                Time.new(2024, 1, 14, 5, 5),
+                                Time.new(2024, 1, 20, 5, 5),
+                                Time.new(2024, 1, 21, 5, 5)
+                              ])
+      end
+    end
   end
 
   describe '#next' do
