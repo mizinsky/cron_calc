@@ -269,6 +269,55 @@ RSpec.describe CronCalc do
                               ])
       end
     end
+
+    context 'when * and / are used in single cron part for minutes' do
+      let(:cron_string) { '*/15 * * * *' }
+      let(:period) { Time.new(2024, 1, 1, 0, 0)..Time.new(2024, 1, 1, 1, 20) }
+
+      it do
+        expect(subject).to eq([
+                                Time.new(2024, 1, 1, 0, 0),
+                                Time.new(2024, 1, 1, 0, 15),
+                                Time.new(2024, 1, 1, 0, 30),
+                                Time.new(2024, 1, 1, 0, 45),
+                                Time.new(2024, 1, 1, 1, 0),
+                                Time.new(2024, 1, 1, 1, 15)
+                              ])
+      end
+    end
+
+    context 'when * and / are used in single cron part for days' do
+      let(:cron_string) { '5 5 */5 * *' }
+      let(:period) { Time.new(2024, 1, 1, 0, 0)..Time.new(2024, 1, 29, 0, 0) }
+
+      it do
+        expect(subject).to eq([
+                                Time.new(2024, 1, 1, 5, 5),
+                                Time.new(2024, 1, 6, 5, 5),
+                                Time.new(2024, 1, 11, 5, 5),
+                                Time.new(2024, 1, 16, 5, 5),
+                                Time.new(2024, 1, 21, 5, 5),
+                                Time.new(2024, 1, 26, 5, 5)
+                              ])
+      end
+    end
+
+    context 'when complex cron string' do
+      let(:cron_string) { '5 5 */15 */3 MON-TUE,SAT' }
+      let(:period) { Time.new(2024, 1, 1, 0, 0)..Time.new(2025, 1, 1, 0, 0) }
+
+      it do
+        expect(subject).to eq([
+                                Time.new(2024, 1, 1, 5, 5),
+                                Time.new(2024, 1, 16, 5, 5),
+                                Time.new(2024, 4, 1, 5, 5),
+                                Time.new(2024, 4, 16, 5, 5),
+                                Time.new(2024, 7, 1, 5, 5),
+                                Time.new(2024, 7, 16, 5, 5),
+                                Time.new(2024, 10, 1, 5, 5)
+                              ])
+      end
+    end
   end
 
   describe '#next' do
