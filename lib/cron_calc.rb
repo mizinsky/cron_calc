@@ -36,11 +36,20 @@ module CronCalc
       'SEP' => '9', 'OCT' => '10', 'NOV' => '11', 'DEC' => '12'
     }.freeze
 
+    PREDEFINED_DEFINITIONS = {
+      '@yearly' => '0 0 1 1 *', '@annually' => '0 0 1 1 *',
+      '@monthly' => '0 0 1 * *',
+      '@weekly' => '0 0 * * 0',
+      '@daily' => '0 0 * * *', '@midnight' => '0 0 * * *',
+      '@hourly' => '0 * * * *'
+    }.freeze
+
     def initialize(cron_string)
       @cron_string = cron_string
 
       raise 'Cron expression is not supported or invalid' unless cron_string_valid?
 
+      @cron_string = normalize_with(cron_string, PREDEFINED_DEFINITIONS) if @cron_string.start_with? '@'
       @cron_parts = split_cron_string
     end
 
@@ -140,7 +149,7 @@ module CronCalc
 
     def cron_string_valid?
       # rubocop:disable Layout/LineLength
-      regex = %r{\A(\*|([0-5]?\d)(,([0-5]?\d))*|(\*/\d+)|(\d+-\d+)) (\*|([01]?\d|2[0-3])(,([01]?\d|2[0-3]))*|(\*/\d+)|(\d+-\d+)) (\*|([12]?\d|3[01])(,([12]?\d|3[01]))*|(\*/\d+)|(\d+-\d+)) (\*|(JAN|FEB|MAR|APR|MAY|JUN|JUL|AUG|SEP|OCT|NOV|DEC|[1-9]|1[0-2])(,(JAN|FEB|MAR|APR|MAY|JUN|JUL|AUG|SEP|OCT|NOV|DEC|[1-9]|1[0-2])|-(JAN|FEB|MAR|APR|MAY|JUN|JUL|AUG|SEP|OCT|NOV|DEC))*|(\*/\d+)|(\d+-\d+)) (\*|(SUN|MON|TUE|WED|THU|FRI|SAT|[0-6])(,(SUN|MON|TUE|WED|THU|FRI|SAT|[0-6])|-(SUN|MON|TUE|WED|THU|FRI|SAT))*|(\*/[0-6]+)|([0-6]-[0-6]))\z}
+      regex = %r{\A(@yearly|@annually|@monthly|@weekly|@daily|@midnight|@hourly|(\*|([0-5]?\d)(,([0-5]?\d))*|(\*/\d+)|(\d+-\d+)) (\*|([01]?\d|2[0-3])(,([01]?\d|2[0-3]))*|(\*/\d+)|(\d+-\d+)) (\*|([12]?\d|3[01])(,([12]?\d|3[01]))*|(\*/\d+)|(\d+-\d+)) (\*|(JAN|FEB|MAR|APR|MAY|JUN|JUL|AUG|SEP|OCT|NOV|DEC|[1-9]|1[0-2])(,(JAN|FEB|MAR|APR|MAY|JUN|JUL|AUG|SEP|OCT|NOV|DEC|[1-9]|1[0-2])|-(JAN|FEB|MAR|APR|MAY|JUN|JUL|AUG|SEP|OCT|NOV|DEC))*|(\*/\d+)|(\d+-\d+)) (\*|(SUN|MON|TUE|WED|THU|FRI|SAT|[0-6])(,(SUN|MON|TUE|WED|THU|FRI|SAT|[0-6])|-(SUN|MON|TUE|WED|THU|FRI|SAT))*|(\*/[0-6]+)|([0-6]-[0-6])))\z}
       # rubocop:enable Layout/LineLength
       cron_string.match?(regex)
     end

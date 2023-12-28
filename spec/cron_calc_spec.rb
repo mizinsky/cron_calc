@@ -170,6 +170,90 @@ RSpec.describe CronCalc do
                               ])
       end
     end
+
+    context 'when predefined definition @daily is used' do
+      let(:cron_string) { '@daily' }
+      let(:period) { Time.new(2024, 1, 1, 0, 0)..Time.new(2024, 1, 4, 15, 0) }
+
+      it do
+        expect(subject).to eq([
+                                Time.new(2024, 1, 1, 0, 0),
+                                Time.new(2024, 1, 2, 0, 0),
+                                Time.new(2024, 1, 3, 0, 0),
+                                Time.new(2024, 1, 4, 0, 0)
+                              ])
+      end
+    end
+
+    context 'when predefined definition @weekly is used' do
+      let(:cron_string) { '@weekly' }
+      let(:period) { Time.new(2024, 1, 1, 0, 0)..Time.new(2024, 2, 1, 0, 0) }
+
+      it do
+        expect(subject).to eq([
+                                Time.new(2024, 1, 7, 0, 0),
+                                Time.new(2024, 1, 14, 0, 0),
+                                Time.new(2024, 1, 21, 0, 0),
+                                Time.new(2024, 1, 28, 0, 0)
+                              ])
+      end
+    end
+
+    context 'when predefined definition @weekly is used' do
+      let(:cron_string) { '@weekly' }
+      let(:period) { Time.new(2024, 1, 1, 0, 0)..Time.new(2024, 2, 1, 0, 0) }
+
+      it do
+        expect(subject).to eq([
+                                Time.new(2024, 1, 7, 0, 0),
+                                Time.new(2024, 1, 14, 0, 0),
+                                Time.new(2024, 1, 21, 0, 0),
+                                Time.new(2024, 1, 28, 0, 0)
+                              ])
+      end
+    end
+
+    context 'when predefined definition @monthly is used' do
+      let(:cron_string) { '@monthly' }
+      let(:period) { Time.new(2024, 1, 1, 0, 0)..Time.new(2024, 3, 1, 0, 0) }
+
+      it do
+        expect(subject).to eq([
+                                Time.new(2024, 1, 1, 0, 0),
+                                Time.new(2024, 2, 1, 0, 0),
+                                Time.new(2024, 3, 1, 0, 0)
+                              ])
+      end
+    end
+
+    context 'when predefined definition @annually is used' do
+      let(:cron_string) { '@annually' }
+      let(:period) { Time.new(2024, 1, 1, 0, 0)..Time.new(2026, 2, 1, 0, 0) }
+
+      it do
+        expect(subject).to eq([
+                                Time.new(2024, 1, 1, 0, 0),
+                                Time.new(2025, 1, 1, 0, 0),
+                                Time.new(2026, 1, 1, 0, 0)
+                              ])
+      end
+    end
+
+    context 'when predefined definition @hourly is used' do
+      let(:cron_string) { '@hourly' }
+      let(:period) { Time.new(2024, 1, 1, 0, 0)..Time.new(2024, 1, 1, 5, 50) }
+
+      it do
+        expect(subject).to eq([
+                                Time.new(2024, 1, 1, 0, 0),
+                                Time.new(2024, 1, 1, 1, 0),
+                                Time.new(2024, 1, 1, 2, 0),
+                                Time.new(2024, 1, 1, 3, 0),
+                                Time.new(2024, 1, 1, 4, 0),
+                                Time.new(2024, 1, 1, 5, 0)
+                              ])
+      end
+    end
   end
 
   describe '#next' do

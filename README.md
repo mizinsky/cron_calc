@@ -1,6 +1,11 @@
 # CronCalc
 
-CronCalc: A Ruby gem for calculating and analyzing scheduled CRON job occurrences and timings within specified intervals.
+**CronCalc**: A Ruby gem for calculating CRON job occurrences. With this gem, you can easily determine when a cron job will occur by providing a cron expression. Key features include the ability to **calculate occurrences**:
+- **Within a specified period**: Find out all the times your cron job will run during a particular timeframe.
+- **After a given date**: Determine the next set of occurrences after a specific starting point.
+- **Before a given date**: Discover when your cron job ran or would have run before a certain date.
+
+This tool can be used for scheduling, forecasting, and analyzing tasks in systems that use cron for job scheduling.
 
 ## Installation
 
@@ -71,7 +76,6 @@ Calculates the last 'n' occurrences of the cron job until a given end time.\
 ## Unsupported features
 
 - Joining characters , - /
-- Predefined definitions (@yearly, @monthly, @weekly, @daily, @midnight, @hourly)
 
 ## Contributing
 
