@@ -73,10 +73,6 @@ Calculates the last 'n' occurrences of the cron job until a given end time.\
     # => [2023-12-31 05:05:00 +0100, 2023-12-30 05:05:00 +0100, 2023-12-29 05:05:00 +0100, 2023-12-28 05:05:00 +0100]
 ```
 
-## Unsupported features
-
-- Joining characters , - /
-
 ## Contributing
 
 Bug reports and pull requests are welcome on GitHub at https://github.com/mizinsky/cron_calc.

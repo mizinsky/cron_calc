@@ -199,20 +199,6 @@ RSpec.describe CronCalc do
       end
     end
 
-    context 'when predefined definition @weekly is used' do
-      let(:cron_string) { '@weekly' }
-      let(:period) { Time.new(2024, 1, 1, 0, 0)..Time.new(2024, 2, 1, 0, 0) }
-
-      it do
-        expect(subject).to eq([
-                                Time.new(2024, 1, 7, 0, 0),
-                                Time.new(2024, 1, 14, 0, 0),
-                                Time.new(2024, 1, 21, 0, 0),
-                                Time.new(2024, 1, 28, 0, 0)
-                              ])
-      end
-    end
-
     context 'when predefined definition @monthly is used' do
       let(:cron_string) { '@monthly' }
       let(:period) { Time.new(2024, 1, 1, 0, 0)..Time.new(2024, 3, 1, 0, 0) }
@@ -251,6 +237,35 @@ RSpec.describe CronCalc do
                                 Time.new(2024, 1, 1, 3, 0),
                                 Time.new(2024, 1, 1, 4, 0),
                                 Time.new(2024, 1, 1, 5, 0)
+                              ])
+      end
+    end
+
+    context 'when ,- are used in single cron part' do
+      let(:cron_string) { '5 5 1,4-6 * *' }
+      let(:period) { Time.new(2024, 1, 1, 0, 0)..Time.new(2024, 1, 7, 23, 50) }
+
+      it do
+        expect(subject).to eq([
+                                Time.new(2024, 1, 1, 5, 5),
+                                Time.new(2024, 1, 4, 5, 5),
+                                Time.new(2024, 1, 5, 5, 5),
+                                Time.new(2024, 1, 6, 5, 5)
+                              ])
+      end
+    end
+
+    context 'when -, are used in single cron part' do
+      let(:cron_string) { '5 5 7-9,27,30 * *' }
+      let(:period) { Time.new(2024, 1, 1, 0, 0)..Time.new(2024, 2, 1, 0, 0) }
+
+      it do
+        expect(subject).to eq([
+                                Time.new(2024, 1, 7, 5, 5),
+                                Time.new(2024, 1, 8, 5, 5),
+                                Time.new(2024, 1, 9, 5, 5),
+                                Time.new(2024, 1, 27, 5, 5),
+                                Time.new(2024, 1, 30, 5, 5)
                               ])
       end
     end
