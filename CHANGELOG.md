@@ -1,3 +1,8 @@
+## [1.0.0] - 2023-12-28
+
+- Add support for predefined definitions
+- Add support for joining ,-
+
 ## [0.4.0] - 2023-12-22
 
 - Added support for named months and wdays
@@ -5,7 +10,7 @@
 
 ## [0.3.0] - 2023-12-22
 
-- Added support for DOWs
+- Added support for DOWs (wdays)
 
 ## [0.2.0] - 2023-12-19
 

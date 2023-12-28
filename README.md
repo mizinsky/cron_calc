@@ -73,6 +73,22 @@ Calculates the last 'n' occurrences of the cron job until a given end time.\
     # => [2023-12-31 05:05:00 +0100, 2023-12-30 05:05:00 +0100, 2023-12-29 05:05:00 +0100, 2023-12-28 05:05:00 +0100]
 ```
 
+### Other examples
+
+```ruby
+    # You can omit the count parameter
+    CronCalc.new('5 5 */5 * SUN').last(before: Time.new(2020, 1, 1, 0, 0))
+    # => [2019-12-01 05:05:00 +0100]
+
+    # You can combine ',' and '-'
+    CronCalc.new('5 5 5-7,10 FEB *').next(5)
+    # => [2024-02-05 05:05:00 +0100, 2024-02-06 05:05:00 +0100, 2024-02-07 05:05:00 +0100, 2024-02-10 05:05:00 +0100, 2025-02-05 05:05:00 +0100]
+
+    # You can use predefined definitions like @daily, @monthly, etc.
+    CronCalc.new('@monthly').next(3, after: Time.new(2024, 1, 1, 0, 0))
+    # => [2024-01-01 00:00:00 +0100, 2024-02-01 00:00:00 +0100, 2024-03-01 00:00:00 +0100]
+```
+
 ## Contributing
 
 Bug reports and pull requests are welcome on GitHub at https://github.com/mizinsky/cron_calc.
