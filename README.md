@@ -5,7 +5,7 @@
 - **After a given date**: Determine the next set of occurrences after a specific starting point.
 - **Before a given date**: Discover when your cron job ran or would have run before a certain date.
 
-This tool can be used for scheduling, forecasting, and analyzing tasks in systems that use cron for job scheduling.
+This tool can be used for scheduling, forecasting, and analyzing tasks in systems that use cron for job scheduling. You can also read the [article about CronCalc here](https://medium.com/@mizinsky/calculate-your-cron-occurrences-with-ease-adf4219933fa).
 
 ## Installation
 
@@ -87,6 +87,19 @@ Calculates the last 'n' occurrences of the cron job until a given end time.\
     # You can use predefined definitions like @daily, @monthly, etc.
     CronCalc.new('@monthly').next(3, after: Time.new(2024, 1, 1, 0, 0))
     # => [2024-01-01 00:00:00 +0100, 2024-02-01 00:00:00 +0100, 2024-03-01 00:00:00 +0100]
+
+    # I want to know when the next 10 Friday the 13ths will be!
+    CronCalc.new('0 0 13 * FRI').next(10)
+    # => 
+    # [2024-09-13 00:00:00 +0200,
+    #  2024-12-13 00:00:00 +0100,
+    #  2025-06-13 00:00:00 +0200,
+    #  2026-02-13 00:00:00 +0100,
+    #  2026-03-13 00:00:00 +0100,
+    #  2026-11-13 00:00:00 +0100,
+    #  2027-08-13 00:00:00 +0200,
+    #  2028-10-13 00:00:00 +0200]
+
 ```
 
 ## Contributing
